@@ -12,7 +12,6 @@
       $('#signup').click(this.onSignupClick);
     }
     App.prototype.onSignupClick = function() {
-      console.log('click');
       return $.ajax('/signup', {
         type: 'POST',
         dataType: 'json',

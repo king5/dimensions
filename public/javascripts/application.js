@@ -43,8 +43,13 @@ $namespace = function(ns, extension) {
 // jQuery UI setup
 $(function(){
   //dimensions
-  $('.topbar').bind('click', function(){
+  $('.topbar').bind('click', function(e){
+    jQuery('#search').val('');
+    Router.handleRequest("search");
   });
+
+  $("#search").click(function(e) { e.stopPropagation(); });
+
   $('select#date-filter').selectToUISlider({
     labels: 4,
     sliderOptions: { 
