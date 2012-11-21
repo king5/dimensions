@@ -170,7 +170,7 @@ p.small {
 }
 .topbar { background: url('../images/background.png'); height: 150px; border-bottom: none; }
 .topbar-inner, .topbar .fill { height: 152px; clear: both; margin-top: 0; background: url('http://q.king5.com/seattleblend/Header.png') no-repeat center 20px; border-bottom: none; box-shadow: none; }
-.topbar-inner .container { height: 150px; }
+.topbar-inner .container { height: 150px; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor:pointer; }
 .topbar form { margin: 20px 0 0 380px; }
 .topbar input { background: #fff; color: #000; }
 .topbar input:hover { background: #fff; color: #000; }

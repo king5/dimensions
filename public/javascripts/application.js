@@ -42,17 +42,19 @@ $namespace = function(ns, extension) {
 
 // jQuery UI setup
 $(function(){
-    //dimensions
-    $('select#date-filter').selectToUISlider({
-        labels: 4,
-        sliderOptions: { 
-            change:function(e, ui) {
-                window.filter.onDateChange(e);
-            }
-        }
-    });
+  //dimensions
+  $('.topbar').bind('click', function(){
+  });
+  $('select#date-filter').selectToUISlider({
+    labels: 4,
+    sliderOptions: { 
+      change:function(e, ui) {
+        window.filter.onDateChange(e);
+      }
+    }
+  });
 
-    $('select#date-filter').hide();
+  $('select#date-filter').hide();
 });
 
 // Ask facebook to re-parse after ajax
