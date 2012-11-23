@@ -1,24 +1,65 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Mayor.create(:name => 'Daley', :city => cities.first)
-#
-
-NewsFeed.create :name => 'King5 Home', :url => 'http://www.king5.com/home/index.rss'
-NewsFeed.create :name => 'King5 Home', :url => 'http://www.king5.com/home/index.rss'
-NewsFeed.create :name => 'King5 Home', :url => 'http://www.king5.com/home/index.rss'
-NewsFeed.create :name => 'GeekWire' , :url => 'http://feeds.feedburner.com/geekwire?format=xml'
-NewsFeed.create :name => 'Seattle Business News' , :url => 'http://feeds.bizjournals.com/bizj_seattle?format=xml'
-NewsFeed.create :name => 'Seattle Mag' , :url => 'http://seattlemag.com/rss.xml'
-NewsFeed.create :name => 'Seattle Weekly' , :url => 'http://www.seattleweekly.com/syndication/issue/'
-NewsFeed.create :name => 'TechFlash' , :url => 'http://feeds.feedburner.com/TechFlash'
-NewsFeed.create :name => 'kitsapsun' , :url => 'http://www.kitsapsun.com/rss/headlines/news/'
-NewsFeed.create :name => 'KUOW' , :url => 'http://feeds2.feedburner.com/KUOW'
-NewsFeed.create :name => 'kplu.org' , :url => 'http://kplu.org/rss.xml'
-NewsFeed.create :name => 'pnwlocalnewsall' , :url => 'http://feeds.feedburner.com/pnwlocalnewsall'
-NewsFeed.create :name => 'sample1 ' , :url => 'http://www.xfruits.com/jonsayer/?id=105421'
-NewsFeed.create :name => 'seattletimes' , :url => 'http://seattletimes.nwsource.com/rss/seattletimes.xml'
-NewsFeed.create :name => 'kirotv' , :url => 'http://www.kirotv.com/list/rss/news/kiro-7-eyewitness-news-headlines/mq6/'
+NewsFeed.create(name: 'King5 Home', url: 'http://www.king5.com/home/index.rss').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.62147299999999", "longitude"=>"-122.34304199999997"}, name:"333 Dexter Ave N, Seattle, WA 98109, USA")
+NewsFeed.create(name: 'GeekWire' , url: 'http://feeds.feedburner.com/geekwire?format=xml').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.66224740000001", "longitude"=>"-122.37538860000001"}, name:"1416 NW 46th St, Seattle, WA 98107, USA")
+NewsFeed.create(name: 'Seattle Business News' , url: 'http://feeds.bizjournals.com/bizj_seattle?format=xml').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"35.221594", "longitude"=>"-80.85178400000001"}, name:"120 W Morehead St #400, Charlotte, NC 28202, USA")
+NewsFeed.create(name: 'Seattle Mag' , url: 'http://seattlemag.com/rss.xml').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.589603", "longitude"=>"-122.33376099999998"}, name:"1518 1st Ave S #500, Seattle, WA 98134, USA")
+NewsFeed.create(name: 'Seattle Weekly' , url: 'http://www.seattleweekly.com/syndication/issue/').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.604682", "longitude"=>"-122.3375312"}, name:"1008 Western Ave #300, Vanpool Services Metro, Seattle, WA 98104, USA")
+NewsFeed.create(name: 'TechFlash' , url: 'http://feeds.feedburner.com/TechFlash').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6037139", "longitude"=>"-122.334584"}, name:"801 2nd Ave #210, Vanpool Services Metro, Seattle, WA 98104, USA")
+NewsFeed.create(name: 'kitsapsun' , url: 'http://www.kitsapsun.com/rss/headlines/news/').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.56632", "longitude"=>"-122.62829999999997"}, name:"545 5th St, Bremerton, WA 98337, USA")
+NewsFeed.create(name: 'KUOW' , url: 'http://feeds2.feedburner.com/KUOW').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6618511", "longitude"=>"-122.3130367"}, name:"4518 University Way NE #310, Seattle, WA 98105, USA")
+NewsFeed.create(name: 'kplu.org' , url: 'http://kplu.org/rss.xml').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.61723509999999", "longitude"=>"-122.3471318"}, name:"2601 4th Ave #150, Seattle, WA 98121, USA")
+NewsFeed.create(name: 'pnwlocalnewsall' , url: 'http://feeds.feedburner.com/pnwlocalnewsall').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6062095", "longitude"=>"-122.3320708"}, name:"Seattle, WA, USA")
+NewsFeed.create(name: 'sample1 ' , url: 'http://www.xfruits.com/jonsayer/?id=105421')
+NewsFeed.create(name: 'seattletimes' , url: 'http://seattletimes.nwsource.com/rss/seattletimes.xml').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.61909199999999", "longitude"=>"-122.33593400000001"}, name:"1000 Denny Way, Seattle, WA 98109, USA")
+NewsFeed.create(name: 'kirotv' , url: 'http://www.kirotv.com/list/rss/news/kiro-7-eyewitness-news-headlines/mq6/').entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6178154", "longitude"=>"-122.3503139"}, name:"2807 3rd Ave, Seattle, WA 98121, USA")
+NewsFeed.create(name: "West seattle blog", url: "http://westseattleblog.com/feed").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.567736", "longitude"=>"-122.3703726"}, name:"2850 Southwest Yancy Street, Seattle, Washington 98126, EEUU")
+NewsFeed.create(name: "CrossCut", url: "http://crosscut.com/feed/main.xml/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6000306", "longitude"=>"-122.3339992"}, name: "105 S Main St #330, Seattle, WA 98104, USA")
+NewsFeed.create(name: "The News Tribune", url: "http://www.thenewstribune.com/news/local/index.rss/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.240175", "longitude"=>"-122.46722199999999"}, name: "1950 S State St, Tacoma, WA 98405, USA")
+NewsFeed.create(name: "Komonews", url: "http://www.komonews.com/news/?fin=xml&type=default&c=y").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.61937409999999", "longitude"=>"-122.34879799999999"}, name: "140 4th Ave N #370, Seattle, WA 98109, USA")
+NewsFeed.create(name: "Q13 Fox", url: "http://www.q13fox.com/rss2.0.xml").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6354031", "longitude"=>"-122.34068719999999"}, name: "1813 Westlake Ave N, Seattle, WA 98109, USA")
+NewsFeed.create(name: "Seattle Pi", url: "http://www.seattlepi.com/local/feed/seattlepi-com-Local-News-218.php").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.614763", "longitude"=>"-122.353047"}, name: "2601 Elliott Ave #300a, Seattle, WA 98121, USA")
+NewsFeed.create(name: "Herald Net", url: "http://heraldnet.com/section/RSS02&mime=xml").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.98074099999999", "longitude"=>"-122.21421580000003"}, name: "1213 California St, Everett, WA 98201, USA")
+NewsFeed.create(name: "My North West", url: "http://mynorthwest.com/xml/11.xml").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6357252", "longitude"=>"-122.3253755"}, name: "1820 Eastlake Ave E, Seattle, WA 98102, USA")
+NewsFeed.create(name: "My Greenlake", url: "http://feeds2.feedburner.com/mygreenlake")
+NewsFeed.create(name: "Sammamish Review", url: "http://sammamishreview.com/feed").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.5296804", "longitude"=>"-122.03670520000003"}, name: "45 Front St S, Issaquah, WA 98027, USA")
+NewsFeed.create(name: "Mercer Island Blog", url: "http://mercerislandblogger.wordpress.com/feed/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.5706548", "longitude"=>"-122.22206729999999"}, name: "Mercer Island, WA, USA")
+NewsFeed.create(name: "I Love Kent", url: "http://www.ilovekent.net/feed/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.39", "longitude"=>"-122.19999999999999"}, name: "Kent, WA 98064, USA")
+NewsFeed.create(name: "My Wallingford", url: "http://feeds2.feedburner.com/mywallingford")
+NewsFeed.create(name: "Fremont Universe", url: "http://feeds2.feedburner.com/fremontuniverse").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.66877419999999", "longitude"=>"-122.38120170000002"}, name: "1752 NW Market St, Seattle, WA 98107, USA")
+NewsFeed.create(name: "Washington Beer Blog", url: "http://www.washingtonbeerblog.com/feed/")
+NewsFeed.create(name: "Kirkland Views", url: "http://feeds.feedburner.com/KirklandViews").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6814875", "longitude"=>"-122.2087353"}, name: "Kirkland, WA, USA")
+NewsFeed.create(name: "Inside Bainbridge", url: "http://feeds.feedburner.com/insidebainbridge")
+NewsFeed.create(name: "My Ballard", url: "http://feeds2.feedburner.com/myballard")
+NewsFeed.create(name: "Beacon Hill Blog", url: "http://beaconhill.seattle.wa.us/feed/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.61", "longitude"=>"-122.32999999999998"}, name: "Seattle, WA 98124, USA")
+NewsFeed.create(name: "Southend Seattle", url: "http://feeds.feedburner.com/southendseattle")
+NewsFeed.create(name: "Seattle Beer News", url: "http://seattlebeernews.com/feed/")
+NewsFeed.create(name: "Eastlake Ave. Blog", url: "http://www.eastlakeave.com/rss/2.0/stories.xml")
+NewsFeed.create(name: "Three Sheets Northwest", url: "http://feeds.feedburner.com/ThreeSheetsNorthwest")
+NewsFeed.create(name: "Belltown People", url: "http://www.belltownpeople.com/rss/2.0/instantjournalist/features/discussionListFeatured.xml")
+NewsFeed.create(name: "The Stranger", url: "http://www.thestranger.com/seattle/Rss.xml").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6149001", "longitude"=>"-122.31818090000002"}, name: "1535 11th Ave, Seattle, WA 98122, United States")
+NewsFeed.create(name: "Wedgwood View", url: "http://feeds2.feedburner.com/wedgwoodview").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.6062095", "longitude"=>"-122.3320708"}, name: "1752 NW Market St. #547 Seattle, WA 98109")
+NewsFeed.create(name: "Lynnwood Today", url: "http://lynnwoodtoday.com/feed/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.8209301", "longitude"=>"-122.31513130000002"}, name: "Lynnwood, WA, USA")
+NewsFeed.create(name: "My Everett News", url: "http://myeverettnews.com/feed/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.9789848", "longitude"=>"-122.2020794"}, name: "Everett, WA, USA")
+NewsFeed.create(name: "Maple Leaf Life", url: "http://feeds2.feedburner.com/mapleleaflife")
+NewsFeed.create(name: "Aurora Seattle", url: "http://www.auroraseattle.com/rss/2.0/instantjournalist/features/discussionListFeatured.xml")
+NewsFeed.create(name: "Maple Valley Post", url: "http://feeds.feedburner.com/MapleValleyPost").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.3661111", "longitude"=>"-122.04472220000002"}, name: "Maple Valley, WA, USA")
+NewsFeed.create(name: "Roosevelt Neighborhood Blog", url: "http://feeds.feedburner.com/roosiehood")
+NewsFeed.create(name: "Ravenna Blog", url: "http://www.ravennablog.com/feed/")
+NewsFeed.create(name: "My Edmonds News", url: "http://myedmondsnews.com/").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.8106521", "longitude"=>"-122.37735520000001"}, name: "Edmonds, WA, USA")
+NewsFeed.create(name: "Magnolia Voice", url: "http://feeds2.feedburner.com/magnoliavoice")
+NewsFeed.create(name: "Plant Talk", url: "http://www.valeaston.com/atom.xml")
+NewsFeed.create(name: "Newcastle News", url: "http://www.newcastle-news.com/feed").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.5301011", "longitude"=>"-122.03261910000003"}, name: "Issaquah, WA, USA")
+NewsFeed.create(name: "Seattle Bike Blog", url: "http://seattlebikeblog.com/feed/")
+NewsFeed.create(name: "U District Daily", url: "http://feeds2.feedburner.com/udistrictdaily")
+NewsFeed.create(name: "Phinneywood", url: "http://feeds.feedburner.com/phinneywood")
+NewsFeed.create(name: "Queen Anne View", url: "http://feeds2.feedburner.com/queenanneview")
+NewsFeed.create(name: "Central District News", url: "http://www.centraldistrictnews.com/rss/2.0/stories.xml")
+NewsFeed.create(name: "Shoreline Area News", url: "http://www.shorelineareanews.com/feeds/posts/default").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.7556531", "longitude"=>"-122.34151780000002"}, name: "Shoreline, WA, USA")
+NewsFeed.create(name: "Rainier Valley Post", url: "http://www.rainiervalleypost.com/feed/")
+NewsFeed.create(name: "Issaquah Press", url: "http://www.issaquahpress.com/feed/")
+NewsFeed.create(name: "Seattle Bubble", url: "http://feeds.feedburner.com/SeattleBubble")
+NewsFeed.create(name: "The Sunbreak", url: "http://feeds.feedburner.com/RecentStories-TheSunbreakMostRecentStories")
+NewsFeed.create(name: "Capitol Hill Seattle", url: "http://feeds.feedburner.com/Capitolhillseattle")
+NewsFeed.create(name: "Seattle/Local Health Guide", url: "http://feeds.feedburner.com/Seattlelocalhealthguide")
+NewsFeed.create(name: "SnoValley Star", url: "http://snovalleystar.com/feed").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.5301011", "longitude"=>"-122.03261910000003"}, name: "PO Box 1328, Issaquah, WA 98027")
+NewsFeed.create(name: "White Center Now", url: "http://whitecenternow.com/feed/")
+NewsFeed.create(name: "MLT News", url: "http://feeds.feedburner.com/MLTnews").entities << Entity.new(type: "location", serialized_data: {"latitude"=>"47.7881528", "longitude"=>"-122.3087405"}, name: "Mountlake Terrace, WA, USA")
