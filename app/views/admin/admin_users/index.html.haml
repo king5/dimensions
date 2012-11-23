@@ -1,0 +1,23 @@
+= content_for :action_items, link_to("New admin user", new_admin_admin_user_path)
+
+%table.feed_entries.table-striped.table
+  %thead
+    %tr
+      %th Id
+      %th Email
+      %th Sign in count
+      %th Created At
+      %th Last sign in at
+      %th
+
+
+  %tbody
+    - @admin_users.each do |admin_user|
+      %tr
+        %td= admin_user.id
+        %td= admin_user.email
+        %td= admin_user.sign_in_count
+        %td= admin_user.created_at
+        %td= admin_user.last_sign_in_at
+        %td= link_to "Delete", admin_admin_user_path(admin_user.id), method: 'delete'
+
