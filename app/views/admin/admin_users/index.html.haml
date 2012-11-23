@@ -1,0 +1,22 @@
+%table.feed_entries.table-striped.table
+  %thead
+    %tr
+      %th Id
+      %th Email
+      %th Sign in count
+      %th Created At
+      %th Last sign in at
+      %th
+      %th
+
+
+  %tbody
+    - @admin_users.each do |admin_user|
+      %tr
+        %td= admin_user.id
+        %td= admin_user.sign_in_count
+        %td= admin_user.created_at
+        %td= admin_user.last_sign_in_at
+        %td= link_to "Edit", "#"
+        %td= link_to "Delete", "#"
+
