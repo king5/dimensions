@@ -1,0 +1,14 @@
+.fixed
+  = form_for @admin_user, url: admin_admin_users_path do |f|
+    = render 'shared/error_messages', :target => @admin_user
+    %fieldset
+      = f.label :email
+      = f.email_field :email
+    %fieldset
+      = f.label :password
+      = f.password_field :password
+    %fieldset
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation
+    %fieldset.subm
+      = f.submit
