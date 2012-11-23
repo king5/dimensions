@@ -4,6 +4,8 @@ describe Admin::AdminUsersController do
   login_admin
 
   context '#index' do
-    pending 'Fix login admin and add some tests'
+    it 'should be 200' do
+      get :index
+    end
   end
 end
