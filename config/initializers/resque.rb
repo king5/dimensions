@@ -1,9 +1,11 @@
-require 'yaml'
+require 'resque'
+require 'resque_scheduler'
+require 'resque_scheduler/server'
 
-rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
-rails_env = ENV['RAILS_ENV'] || 'development'
+rails_root = Rails.root || File.dirname(__FILE__) + '/../..'
+rails_env = Rails.env || 'development'
 
-resque_yml = ERB.new(File.read("#{rails_root}/config/resque.yml")).result
-resque_config = YAML.load(resque_yml)
-
+resque_config = YAML.load_file(rails_root.to_s + '/config/resque.yml')
 Resque.redis = resque_config[rails_env]
+
+Resque.schedule = YAML.load_file(File.join(Rails.root, 'config/resque_scheduler.yml'))
