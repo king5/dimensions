@@ -1,4 +1,5 @@
 class EntryMonitor
+  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
   @queue = :reindex_entries
 
   def self.perform

@@ -1,4 +1,5 @@
 class FeedUpdater
+  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
   @queue = :feeds
 
   def self.perform

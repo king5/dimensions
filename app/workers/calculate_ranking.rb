@@ -1,4 +1,5 @@
 class CalculateRanking
+  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
   @queue = :feed_entry
 
   def self.perform(entry_id)

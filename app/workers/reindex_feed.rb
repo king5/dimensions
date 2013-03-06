@@ -1,4 +1,5 @@
 class ReindexFeed
+  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
   @queue = :reindex_entries
 
   def self.perform(feed_id)

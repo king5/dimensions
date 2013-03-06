@@ -1,4 +1,5 @@
 class EntryIndexer
+  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
   @queue = :entries
 
   def self.perform(entry_id)
