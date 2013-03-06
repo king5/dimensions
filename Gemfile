@@ -39,6 +39,7 @@ gem 'exception_notification', :require => 'exception_notifier'
 gem 'daemons'
 gem 'daemons-rails'
 gem 'thin'
+gem 'newrelic_rpm'
 
 gem 'jasmine', :group => [:development, :test]
 
