@@ -19,8 +19,8 @@ class FeedEntry < ActiveRecord::Base
   scope :for_location_review, where(:state => ['localized', 'tagged'])
   scope :not_reviewed, where(:reviewed => false)
   scope :reviewed, where(:reviewed => true)
-  scope :to_recalculate, where("created_at > '#{12.hours.ago}' AND indexed = 't'").order('created_at DESC')
-  scope :to_remove, where("created_at < '#{12.hours.ago}' AND indexed = 't'")
+  scope :to_recalculate, where("created_at > '#{12.hours.ago}' AND indexed = 't' AND outdated = 'f'").order('created_at DESC')
+  scope :to_remove, where("created_at < '#{12.hours.ago}' AND indexed = 't' AND outdated = 'f'")
 
   scope :to_reindex, joins(:feed).where("feed_entries.state = ? AND feed_entries.indexed = ?", 'tagged', false).readonly(false)
 
@@ -335,21 +335,20 @@ class FeedEntry < ActiveRecord::Base
     # social_ranking = upvotes / (entry_age ** 1.8 )
   end
   
-  def self.remove_entry(id)
+  def zero_to_social_rank
     begin
       index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
-      index.document(id).delete
-      find(id).update_attributes(outdated: true, indexed: false)
+      self.social_ranking = nil
+      index_in_searchify(index)
+      update_attributes(outdated: true)
     rescue Exception => e
-      puts "FeedEntry: ID: #{id} could not be unindexed, Error: #{e.to_s}"
+      puts "FeedEntry: ID: #{id} could not be changed to zero, Error: #{e.to_s}"
     end
   end
 
   def self.remove_this_entries
     entries = FeedEntry.to_remove
-    index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
-    index.bulk_delete(entries.map(&:id))
-    entries.each { |entry| entry.update_attributes(outdated: true, indexed: false) } 
+    entries.each { |entry| entry.zero_to_social_rank }
   end
 
   private
