@@ -19,8 +19,8 @@ class FeedEntry < ActiveRecord::Base
   scope :for_location_review, where(:state => ['localized', 'tagged'])
   scope :not_reviewed, where(:reviewed => false)
   scope :reviewed, where(:reviewed => true)
-  scope :to_recalculate, where("created_at < '#{12.hours.ago}'").order('created_at DESC')
-  scope :to_remove, where("created_at > '#{12.hours.ago}'")
+  scope :to_recalculate, where("created_at > '#{12.hours.ago}'").order('created_at DESC')
+  scope :to_remove, where("created_at < '#{12.hours.ago}' AND indexed = 't'")
 
   scope :to_reindex, joins(:feed).where("feed_entries.state = ? AND feed_entries.indexed = ?", 'tagged', false).readonly(false)
 
@@ -346,9 +346,10 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def self.remove_this_entries
-    entries_to_remove = FeedEntry.to_remove.map { |entry| entry.id.to_s }
+    entries = FeedEntry.to_remove
     index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
-    index.bulk_delete(entries_to_remove)
+    index.bulk_delete(entries.map(&:id))
+    entries.each { |entry| entry.update_attributes(outdated: true, indexed: false) } 
   end
 
   private
