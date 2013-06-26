@@ -18,6 +18,7 @@ development:
   <<: *facebook
   <<: *open_calais
   <<: *elasticsearch
+  elasticsearch_api_url: http://localhost:9200
   searchify_index: 'development'
   elasticsearch_index: 'development'
   host: http://localhost:3000/
