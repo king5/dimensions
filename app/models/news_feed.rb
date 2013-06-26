@@ -21,6 +21,25 @@ class NewsFeed < ActiveRecord::Base
   before_save   :build_location
 
 
+  include Tire::Model::Search
+  index_name  APP_CONFIG['elasticsearch_index']
+
+  mapping do 
+    indexes :id, type: 'string', index: :not_analized
+    indexes :name
+    indexes :url
+    indexes :created_at
+    indexes :updated_at
+    indexes :etag
+    indexes :last_modified
+    indexes :valid_feed
+  end
+  after_save :update_indexes
+
+  def update_indexes
+    tire.update_index 
+  end
+
   def self.set_downloaded(entries)
     entries.each {|e| e.download}
   end

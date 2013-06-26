@@ -1,6 +1,5 @@
 class Dimensions::ElasticsearchApi
   def initialize
-    Tire.configure{ url APP_CONFIG['elastisearch_api_url'] }  
   end
    
   @@instance ||= Tire
