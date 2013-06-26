@@ -10,6 +10,7 @@ gem 'koala'
 gem 'scrapi'
 gem 'state_machine'
 gem 'indextank'
+gem 'tire'
 gem 'ruby-graphviz', :require => 'graphviz'
 # active admin requirements
 #========================================
