@@ -34,14 +34,14 @@ class FeedEntry < ActiveRecord::Base
   mapping do  
     indexes :id, type: 'string', index: :not_analyzed
     indexes :url
-    indexes :type
+    indexes :summary
+    indexes :content
     indexes :published_at, :as => 'timestamp', type: 'date'
     indexes :created_at, type: 'date'
     indexes :name, as: 'text' 
-    indexes :locationname, as: :location
-    indexes :content
-    indexes :sumary
     indexes :tags
+    indexes :type
+    indexes :locationname, as: :location
     indexes :all
   end
 
