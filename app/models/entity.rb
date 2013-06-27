@@ -18,23 +18,6 @@ class Entity < ActiveRecord::Base
 
   validates :name, :uniqueness => {:scope => :type}
 
-  include Tire::Model::Search
-  index_name  APP_CONFIG['elasticsearch_index']
-
-  mapping do 
-    indexes :id, type: 'string', index: :not_analized
-    indexes :type
-    indexes :created_at
-    indexes :updated_at
-    indexes :name
-    indexes :tags
-  end
-  after_save :update_indexes
-
-  def update_indexes
-    tire.update_index 
-  end
-
   def clear_tag(name)
     return false if self.tags.blank? || self.type != 'tag'
     self.tags.delete(name)

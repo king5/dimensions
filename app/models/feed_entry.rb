@@ -30,18 +30,29 @@ class FeedEntry < ActiveRecord::Base
   include Tire::Model::Search
  
   index_name  APP_CONFIG['elasticsearch_index']
+
   mapping do  
     indexes :id, type: 'string', index: :not_analyzed
     indexes :url
     indexes :type
-    indexes :published_at, :as => :timestamp, type: 'date'
+    indexes :published_at, :as => 'timestamp', type: 'date'
+    indexes :created_at, type: 'date'
     indexes :name, as: 'text' 
     indexes :locationname, as: :location
+    indexes :content
+    indexes :sumary
     indexes :tags
     indexes :all
   end
 
   after_save :update_indexes
+
+  def self.search(params)
+    tire.search(load: true, page: params[:page], per_page: 18) do
+      query { string params[:query]} if params[:query].present?
+    end
+  end
+  
 
   def update_indexes
     tire.update_index 
