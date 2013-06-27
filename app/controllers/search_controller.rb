@@ -5,13 +5,12 @@ require "pp"
 class SearchController < ApplicationController
    def index
     #build our main searcher tags or search text
-   if(params["tag"] || params["search"])
+   if(params["tag"] || params["search"] || params[:q])
      s=""
      s+="("+params["tag"].to_s.split(",").join(" AND ")+") #{'AND' if params["search"]} " if params["tag"]
      s+= " "+params["search"] if params["search"]
-     match={"query_string"=>{
-"fields"=> [ "no_tag_body" ], "query"=> s, "use_dis_max"=> true}}
-       
+     s+= " "+params[:q] if params[:q]
+     match={"query_string"=>{ "fields"=> [ "no_tag_body", "content", "name" ], "query"=> s.strip, "use_dis_max"=> true}} 
      # match = {"and"=>[{ "text" => { "body"=> { "query"=> params["tag"].to_s.split(",").join(" "), "operator"=> "or" } } }, { "text_phrase" => { "body" => { "query" => params["search"].to_s} } }]}
     else
       match = {"match_all"=>{}}
@@ -78,15 +77,12 @@ class SearchController < ApplicationController
       "from"=>from,
       "facets"=>facets,
       "query"=>match,
-      "sort"=>[{"created_date"=>{"reverse"=>true}}],
+      "sort"=>[{"created_at"=>{"reverse"=>true}}],
      "version"=>true
       
    }
-    Tire.configure do
-      url "http://107.22.249.45:9200/"#TODO:make config
-    end
     puts JSON.generate(qu)
-    @results = Tire.search("news",qu)
+    @results = Tire.search(APP_CONFIG['elasticsearch_index'],qu)
     #ruby do what i want coding
     r=@results.instance_variable_get(:@response)
     facets = {}
@@ -101,11 +97,8 @@ r["facets"].each{|k,v| facets[k]=v["terms"]}
       }
       } 
     }
-    Tire.configure do
-      url "http://107.22.249.45:9200/"#TODO:make config
-    end
 
-    @results = Tire.search("news",qu)
+    @results = Tire.search(APP_CONFIG['elasticsearch_index'],qu)
     r=@results.instance_variable_get(:@response)
     
     render :json=>{:results =>  r["hits"]["hits"]}
