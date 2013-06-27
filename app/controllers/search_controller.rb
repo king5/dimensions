@@ -10,7 +10,7 @@ class SearchController < ApplicationController
      s+="("+params["tag"].to_s.split(",").join(" AND ")+") #{'AND' if params["search"]} " if params["tag"]
      s+= " "+params["search"] if params["search"]
      s+= " "+params[:q] if params[:q]
-     match={"query_string"=>{ "fields"=> [ "no_tag_body", "content", "name" ], "query"=> s.strip, "use_dis_max"=> true}} 
+     match={"query_string"=>{ "fields"=> params[:fields], "query"=> s.strip, "use_dis_max"=> true}} 
      # match = {"and"=>[{ "text" => { "body"=> { "query"=> params["tag"].to_s.split(",").join(" "), "operator"=> "or" } } }, { "text_phrase" => { "body" => { "query" => params["search"].to_s} } }]}
     else
       match = {"match_all"=>{}}
