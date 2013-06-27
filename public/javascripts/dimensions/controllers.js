@@ -21,6 +21,7 @@ function SearchController(){
     window.dimensions.bind("loadItems",function(){
     $(this.element).empty().append("<p>Loading...</p>")
       query = window.filter.getQuery();
+      console.log(query)
       window.searchify.search(query);
     });
     window.dimensions.loadItems();
