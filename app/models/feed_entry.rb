@@ -1,4 +1,5 @@
 class FeedEntry < ActiveRecord::Base
+  cattr_accessor :skip_callbacks
   belongs_to  :feed, class_name: NewsFeed, foreign_key: "news_feed_id"
   has_many    :entity_feed_entries
   belongs_to :news_feed
@@ -47,6 +48,7 @@ class FeedEntry < ActiveRecord::Base
     indexes :all
   end
 
+  after_save :update_geopoints, unless: :skip_callbacks
   after_save :update_indexes
   
   def self.search(params)
@@ -56,10 +58,12 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def update_geopoints
+    self.skip_callbacks = true
     loc = news_feed.location
     unless loc.nil? 
       self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] })
     end
+    self.skip_callbacks = false
   end
 
   def location
