@@ -35,6 +35,8 @@ class SearchController < ApplicationController
 
       sort  do 
         by :created_at, :desc 
+        # by :rank_coefficient, :asc
+        # by :social_ranking, :asc
       end
     end
 
