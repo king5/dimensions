@@ -10,8 +10,8 @@ class SearchController < ApplicationController
     size = (params[:size]||25).to_i
     from = params["page"].to_i * size
     #real search json
-    @results = Tire.search(APP_CONFIG['elasticsearch_index']) do 
-      query { string "name: #{ options[:q] }*", from: from , size: size, version: true } unless options[:q].blank?
+    @search = Tire.search(APP_CONFIG['elasticsearch_index']) do 
+      query { string "name: #{ options[:q] }*" } unless options[:q].blank?
 
       filter :geo_bounding_box, location: { top_left: [options[:sw_long],options[:ne_lat] ], bottom_right: [options[:ne_long],options[:sw_lat]] } unless options[:sw_long].blank?
 
@@ -32,7 +32,8 @@ class SearchController < ApplicationController
       facet 'articles' do 
         date :created_at, interval: "hour"
       end
-
+      self.from from
+      self.size size
       sort  do 
         by :created_at, { order: :desc, ignore_unmapped: true }
         # by :rank_coefficient, { order: :asc, ignore_unmapped: true }
@@ -41,9 +42,13 @@ class SearchController < ApplicationController
     end
 
     facets = {}
-    @results.facets.each{|k,v| facets[k]=v["terms"]} unless @results.facets.nil?
+    @search.facets.each{|k,v| facets[k]=v["terms"]} unless @search.facets.nil?
+    #paginate the result
+    #@results = @search.results
+    #@results.options[:per_page] = params[:len].to_i
+    #@results.options[:page] = params[:page] || 1
 
-    render json: { results: @results.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, :facets => facets, page: from, total_results: @results.results.total }
+    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, :facets => facets, page: from, total_results: @search.results.total }
 
   end
 
