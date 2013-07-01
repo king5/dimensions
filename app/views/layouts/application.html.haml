@@ -43,6 +43,7 @@
     = javascript_include_tag 'jquery.ba-urlinternal.min'
     = javascript_include_tag 'underscore-min'
     = javascript_include_tag 'extensions'
+    = csrf_meta_tag 
 
   %body
     #rails_to_js_config{'data-rails-env' => Rails.env, 'data-root-path' => APP_CONFIG['host'], 'data-twitter-msg' => @twitter_message}

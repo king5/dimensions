@@ -1,6 +1,7 @@
 class FeedEntry < ActiveRecord::Base
   belongs_to  :feed, class_name: NewsFeed, foreign_key: "news_feed_id"
   has_many    :entity_feed_entries
+  belongs_to :news_feed
   has_many    :entities, :through => :entity_feed_entries do
     def primary
       where("entity_feed_entries.default = ?", true)
@@ -36,6 +37,7 @@ class FeedEntry < ActiveRecord::Base
     indexes :url
     indexes :summary
     indexes :content
+    indexes :location, type: 'geo_point'
     indexes :published_at, :as => 'timestamp', type: 'date'
     indexes :created_at, type: 'date'
     indexes :name, as: 'text' 
@@ -46,13 +48,27 @@ class FeedEntry < ActiveRecord::Base
   end
 
   after_save :update_indexes
-
+  
   def self.search(params)
     tire.search(load: true, page: params[:page], per_page: 18) do
       query { string params[:query]} if params[:query].present?
     end
   end
-  
+
+  def update_geopoints
+    loc = news_feed.location
+    unless loc.nil? 
+      self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] })
+    end
+  end
+
+  def location
+    [latitude, longitude].join(',')
+  end
+
+  def to_indexed_json
+      to_json( methods: ['location'] )
+  end 
 
   def update_indexes
     tire.update_index 

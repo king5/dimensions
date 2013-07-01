@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121017160242) do
+ActiveRecord::Schema.define(:version => 20130701025556) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20121017160242) do
     t.integer  "facebook_comments", :default => 0
     t.float    "rank_coefficient",  :default => 1.8
     t.boolean  "outdated",          :default => false
+    t.string   "latitude"
+    t.string   "longitude"
   end
 
   add_index "feed_entries", ["url"], :name => "index_feed_entries_on_url", :unique => true

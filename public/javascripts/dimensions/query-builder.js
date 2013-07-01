@@ -86,22 +86,26 @@
         if (this.field_search() && this.search.trim()) {
           query.q = this.search;
         }else{
-          query.q = "all:1";
+            query.q = ""; 
         }
         if (this.tags.length > 0) {
           query.q = "tags:"+this.tags.join(',');
+          query.tags = this.tags.join(',')
         }
        
         if (this.fetch.length > 0) {
          query.fetch =  this.fetch.join(',');
+         query.fields = this.fetch;
         }
         if (this.groups.length > 0) {
           query.owner = this.groups.join(',');
         }
         if (this.neCoords && this.swCoords) {
           keys = Object.keys(this.swCoords);
-          query.filter_docvar0 = this.swCoords[keys[0]] + ':' + this.neCoords[keys[0]]
-          query.filter_docvar1 = this.swCoords[keys[1]] + ':' + this.neCoords[keys[1]]
+          query.sw_lat = this.swCoords[keys[0]];
+          query.sw_long = this.neCoords[keys[0]];
+          query.ne_lat = this.swCoords[keys[1]];
+          query.ne_long = this.neCoords[keys[1]];
         }
         if(this.docid){
           query.docid = this.docid;
@@ -109,8 +113,7 @@
         if(this.start > 0){
         query .start           = this.start;
         }
-        query.start_date       = this.startDate;
-        query.fetch_variables  = true;
+        query.start_date       = this.startDate
         query.len              = this.len;
         return query;
       },

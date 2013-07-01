@@ -36,6 +36,7 @@ $(function(){
 
           $.tmpl(this.template, {items: this.data}).appendTo(this.element);
 
+          console.log(this.data.results);
           $.each(this.data.results, function(i, r) {
             var breakingNews, displayMarker, latitude, longitude, _ref, _ref2;
             if(r.variable_0 && r.variable_1){

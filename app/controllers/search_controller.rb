@@ -1,106 +1,56 @@
- class Article
-  
-  end
+class Article
+
+end
 require "pp"
 class SearchController < ApplicationController
-   def index
+  def index
     #build our main searcher tags or search text
-   if(params["tag"] || params["search"] || params[:q])
-     s=""
-     s+="("+params["tag"].to_s.split(",").join(" AND ")+") #{'AND' if params["search"]} " if params["tag"]
-     s+= " "+params["search"] if params["search"]
-     s+= " "+params[:q] if params[:q]
-     match={"query_string"=>{ "fields"=> params[:fields], "query"=> s.strip, "use_dis_max"=> true}} 
-     # match = {"and"=>[{ "text" => { "body"=> { "query"=> params["tag"].to_s.split(",").join(" "), "operator"=> "or" } } }, { "text_phrase" => { "body" => { "query" => params["search"].to_s} } }]}
-    else
-      match = {"match_all"=>{}}
-    end
-    geo_box = nil
-    if(params["sw_long"])
-      geo_box= {"geo_bounding_box"=>
-        {"article.location"=>{"top_left"=>[params["sw_long"].to_f,params["ne_lat"].to_f ], "bottom_right"=>[params["ne_long"].to_f,params["sw_lat"].to_f]}}}
-    end
-    date_range=nil
-    if(params["start_date"] || params["end_date"])
-      #d= Date.parse("2011-10-15T21:56:10.678Z")
-      #pp params
-      date_range={
-        "range"=> {
-        "created_at"=> {
-          "from"=> DateTime.parse(CGI.unescape(params["start_date"])).new_offset(0).strftime("%FT%TZ"),
-          "to"=>(DateTime.parse(CGI.unescape(params["end_date"])).new_offset(0).strftime("%FT%TZ") rescue DateTime.now.new_offset(0).strftime("%FT%TZ"))
-          }
-        }
-      }
-    end
+    options = params
     owner=nil
-    if(params["owner"] )
-      owner={
-        "terms"=> {
-        "owner"=> params["owner"].split(",")
-      }
-      }
-    end
-    sources=nil
-    if(params["source"] )
-      sources={
-        "terms"=> {
-          "source"=> params["source"].split(",")
-        }
-      }
-    end
-    querys = [geo_box,date_range].compact
-    if(querys.size==1)
-      querys = querys.first
-    else
-      querys= {"and"=>querys}
-    end
-    facets = {
-      "tags" => { "terms" => {"field" => "no_tag_body","size"=>30} },
-      "source_tags" => { "terms" => {"field" => "tag","size"=>30} },
-      "topics" => { "terms" => {"field" => "topics","size"=>30} },
-      "articles" => {
-        "date_histogram" => {
-          "field" => "created_at",
-          "interval" => "hour"
-        }
-      }
-    }
-
     size = (params[:size]||25).to_i
     from = params["page"].to_i * size
     #real search json
-    match["filtered"]= {
-            "filter"=>querys} if !querys["and"] || querys["and"].size>0
+    @results = Tire.search(APP_CONFIG['elasticsearch_index']) do 
+      query { string "name: #{ options[:q] }*", from: from , size: size, version: true } unless options[:q].blank?
 
-    qu = {"size"=>size,
-      "from"=>from,
-      "facets"=>facets,
-      "query"=>match,
-      "sort"=>[{"created_at"=>{"reverse"=>true}}],
-     "version"=>true
-      
-   }
-    puts JSON.generate(qu)
-    @results = Tire.search(APP_CONFIG['elasticsearch_index'],qu)
-    #ruby do what i want coding
-    r=@results.instance_variable_get(:@response)
+      filter :geo_bounding_box, location: { top_left: [options[:sw_long],options[:ne_lat] ], bottom_right: [options[:ne_long],options[:sw_lat]] } unless options[:sw_long].blank?
+
+      filter :range,  created_at: { from: Time.at(CGI.unescape(options[:start_date]).to_i).strftime("%FT%TZ"), to: (Time.at(CGI.unescape(options[:end_date].to_i)).strftime("%FT%TZ") rescue DateTime.now.new_offset(0).strftime("%FT%TZ")) } unless options[:start_date].blank?
+
+      facet 'tags' do
+        terms :no_tag_body, size: 30
+      end
+
+      facet 'source_tags' do 
+        terms :tag, size: 30
+      end
+
+      facet 'topics' do 
+        terms :topics, size: 30
+      end
+
+      facet 'articles' do 
+        date :created_at, interval: "hour"
+      end
+
+      sort  do 
+        by :created_at, :desc 
+      end
+    end
+
     facets = {}
-r["facets"].each{|k,v| facets[k]=v["terms"]}
-    render :json=>{:results => r["hits"]["hits"].map{|x| x["_source"]},:facets=>r["facets"],:page=>from,:total_results=>@results.total,:size=>size}
+    @results.facets.each{|k,v| facets[k]=v["terms"]} unless @results.facets.nil?
+
+    render json: { results: @results.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, :facets => facets, page: from, total_results: @results.results.total }
+
   end
 
   def article
-    qu= {"query"=>{
-      "ids" => {
-        "values" => params["ids"].split(",")
-      }
-      } 
-    }
+    qu= {"query"=>{ "ids" => { "values" => params["ids"].split(",") } } }
 
     @results = Tire.search(APP_CONFIG['elasticsearch_index'],qu)
     r=@results.instance_variable_get(:@response)
-    
+
     render :json=>{:results =>  r["hits"]["hits"]}
   end
 end
