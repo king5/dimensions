@@ -103,8 +103,8 @@
         if (this.neCoords && this.swCoords) {
           keys = Object.keys(this.swCoords);
           query.sw_lat = this.swCoords[keys[0]];
-          query.sw_long = this.neCoords[keys[0]];
-          query.ne_lat = this.swCoords[keys[1]];
+          query.ne_lat = this.neCoords[keys[0]];
+          query.sw_long = this.swCoords[keys[1]];
           query.ne_long = this.neCoords[keys[1]];
         }
         if(this.docid){
