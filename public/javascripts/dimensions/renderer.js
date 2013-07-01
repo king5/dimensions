@@ -33,7 +33,7 @@ $(function(){
           // IMPORTANT! values of the matches hash are pretty important for the search, without them , search doesn't work
           window.filter.matches = matches;
 
-          #TODO: ask about the behavior to show the marks
+          //TODO ask about the behavior to show the marks
           $.tmpl(this.template, {items: this.data}).appendTo(this.element);
           $.each(this.data.results, function(i, r) {
             var breakingNews, displayMarker, latitude, longitude, _ref, _ref2;
