@@ -34,9 +34,9 @@ class SearchController < ApplicationController
       end
 
       sort  do 
-        by :created_at, :desc 
-        # by :rank_coefficient, :asc
-        # by :social_ranking, :asc
+        by :created_at, { order: :desc, ignore_unmapped: true }
+        # by :rank_coefficient, { order: :asc, ignore_unmapped: true }
+        # by :social_ranking, { order: :asc, ignore_unmapped: true }
       end
     end
 
