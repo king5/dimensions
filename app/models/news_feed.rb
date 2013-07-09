@@ -165,9 +165,8 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def reindex_feed
-    index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
     if self.valid_feed?
-      self.entries.to_reindex.map { |entry| entry.index_in_searchify(index) }
+      self.entries.to_reindex.map { |entry| entry.index_in_searchify }
     else
       false
     end
