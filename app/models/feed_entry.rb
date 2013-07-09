@@ -28,6 +28,9 @@ class FeedEntry < ActiveRecord::Base
 
   acts_as_taggable
   before_save :clean_errors
+  after_save :update_geopoints, unless: :skip_callbacks
+  after_save :update_indexes
+  after_touch() { update_geopoints }
 
   include Tire::Model::Search
  
@@ -48,8 +51,6 @@ class FeedEntry < ActiveRecord::Base
     indexes :all
   end
 
-  after_save :update_geopoints, unless: :skip_callbacks
-  after_save :update_indexes
   
   def self.search(params)
     tire.search(load: true, page: params[:page], per_page: 18) do
@@ -239,27 +240,14 @@ class FeedEntry < ActiveRecord::Base
       self.content
     end
 
-    def index_in_searchify(index)
-      location = self.primary_location.serialized_data
 
-      self.social_ranking = 0.0 if self.social_ranking.nil?
+    def index_in_searchify
+      location = self.primary_location.nil? ? {} : self.primary_location.serialized_data 
 
       if location["latitude"].present? && location["longitude"].present?
-        doc_variables = { 0 => location["latitude"],
-          1 => location["longitude"],
-          2 => self.social_ranking}
-
-        fields = {:url        => self.url,
-          :timestamp  => self.published_at.to_i,
-          :text       => self.name,
-          :location   => self.primary_location.name,
-          :tags       => self.tag_list.join(','),
-          :all        => '1'}
-
-        fields[:summary] = self.summary unless self.summary.nil?
-
+        self.social_ranking = 0.0 if self.social_ranking.nil?
         begin
-          index.document(self.id).add(fields, :variables => doc_variables)
+          self.tire.index.refresh
           self.update_attributes(failed: false, indexed: true, outdated: false)
           true
         rescue Exception => e
@@ -270,17 +258,16 @@ class FeedEntry < ActiveRecord::Base
         self.update_attributes(failed: true, indexed: false, fetch_errors: { error: 'It does not have latitude or longitude' })
         false
       end
+
     end
 
     def self.reindex_in_searchify(entry_id)
-      index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
       entry = self.find(entry_id)
-      entry.index_in_searchify(index)
+      entry.tire.index.refresh
     end
 
     def re_index
-      index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
-      self.index_in_searchify(index)
+      self.tire.index.refresh
     end
 
     def locations
@@ -399,9 +386,8 @@ class FeedEntry < ActiveRecord::Base
 
     def zero_to_social_rank
       begin
-        index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
         self.social_ranking = nil
-        index_in_searchify(index)
+        index_in_searchify
         update_attributes(outdated: true)
       rescue Exception => e
         puts "FeedEntry: ID: #{id} could not be changed to zero, Error: #{e.to_s}"
