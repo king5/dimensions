@@ -1,8 +1,8 @@
 facebook: &facebook
   fb_app_id: 361505903895246 
 
-searchify: &searchify
-  searchify_api_url: http://:Tf9MTWQrYG8Hwz@282nj.api.searchify.com
+elasticsearch: &elasticsearch
+  elasticsearch_api_url: http://api.searchbox.io/api-key/68a40a8e15b9a9384f0740d39ff6d581
 
 twitter:
   consumer_key: KTUsgbQa6JvXHzsdAoBfw
@@ -13,27 +13,30 @@ twitter:
 
 open_calais: &open_calais
   open_calais_api_key: du295ff4zrg3rd4bwdk86xhy
-  
+
 development:
   <<: *facebook
   <<: *open_calais
-  <<: *searchify
+  <<: *elasticsearch
+  elasticsearch_api_url: http://localhost:9200
   searchify_index: 'development'
+  elasticsearch_index: 'development'
   host: http://localhost:3000/
 
 test:
   <<: *facebook
   <<: *open_calais
-  <<: *searchify
+  <<: *elasticsearch
 
 staging:
   <<: *facebook
   <<: *open_calais
-  <<: *searchify
+  <<: *elasticsearch
   searchify_index: 'staging'
+  elasticsearch_index: 'development'
   host: http://www.seattleblend.com/
 
 production:
   <<: *facebook
   <<: *open_calais
-  <<: *searchify
+  <<: *elasticsearch

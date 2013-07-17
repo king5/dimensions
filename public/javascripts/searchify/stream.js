@@ -1,5 +1,6 @@
 $(function(){
-  window.stream = window.searchify = searchify = new Searchify.Client;
+  // window.stream = window.searchify = searchify = new Searchify.Client;
+  window.stream = window.searchify = searchify = new ElasticSearch.Client;
   searchify.bind("onSearchSuccess",function(response){
 
     //store the results in map so we can retrieve them later
