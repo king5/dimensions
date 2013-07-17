@@ -166,7 +166,7 @@ class NewsFeed < ActiveRecord::Base
 
   def reindex_feed
     if self.valid_feed?
-      self.entries.to_reindex.map { |entry| entry.index_in_searchify }
+      self.entries.to_reindex.map(&:index_in_searchify)
     else
       false
     end
