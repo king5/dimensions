@@ -30,7 +30,7 @@ class FeedEntry < ActiveRecord::Base
   before_save :clean_errors
   after_save :update_geopoints, unless: :skip_callbacks
   after_save :update_indexes
-  after_touch() { update_geopoints }
+  after_touch :update_geopoints
 
   include Tire::Model::Search
  
