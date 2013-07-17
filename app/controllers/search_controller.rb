@@ -1,7 +1,3 @@
-class Article
-
-end
-require "pp"
 class SearchController < ApplicationController
   def index
     #build our main searcher tags or search text
@@ -36,6 +32,7 @@ class SearchController < ApplicationController
       self.size size
       sort  do 
         by :created_at, { order: :desc, ignore_unmapped: true }
+        #TODO: implement those methods 
         # by :rank_coefficient, { order: :asc, ignore_unmapped: true }
         # by :social_ranking, { order: :asc, ignore_unmapped: true }
       end
@@ -43,7 +40,7 @@ class SearchController < ApplicationController
 
     facets = {}
     @search.facets.each{|k,v| facets[k]=v["terms"]} unless @search.facets.nil?
-    #paginate the result
+    #TODO: immplement pagination for results
     #@results = @search.results
     #@results.options[:per_page] = params[:len].to_i
     #@results.options[:page] = params[:page] || 1

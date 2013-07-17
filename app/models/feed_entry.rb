@@ -47,7 +47,7 @@ class FeedEntry < ActiveRecord::Base
     indexes :name, as: 'text' 
     indexes :tags
     indexes :type
-    indexes :locationname, as: :location
+    indexes :locationname
     indexes :all
   end
 
@@ -397,6 +397,16 @@ class FeedEntry < ActiveRecord::Base
     def self.remove_this_entries
       entries = FeedEntry.to_remove
       entries.each { |entry| entry.zero_to_social_rank }
+    end
+
+    def self.initialize_index
+      tire.index.delete
+      tire.create_elasticsearch_index
+      tire.index.import all
+    end
+
+    def self.clean_index
+      remove_this_entries
     end
 
     private

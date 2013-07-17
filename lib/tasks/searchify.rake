@@ -1,4 +1,4 @@
-require 'indextank'
+require 'tire'
 
 namespace :searchify do
 
