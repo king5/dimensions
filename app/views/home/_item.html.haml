@@ -21,7 +21,7 @@
         {{if timestamp}}
         .date 
           Published 
-          %span.date{:class=>"timefield t:${timestamp*1000}"}
+          %span.date {{ timestamp }}
         {{/if}}
         %br
         .social-buttons
