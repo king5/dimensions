@@ -86,7 +86,7 @@ function filterByBoundary(map)
 {
     boundary = "Visible map viewport has changed.\n\n";
     boundary += "South west coorindates:\n" + getSouthWestCoordinates(map);
-    boundary += "\n\nNorth east coorindates:\n" + getNorthEastCoordinates(map);
+    boundary += "\n\nNorth ast coorindates:\n" + getNorthEastCoordinates(map);
     if(window.location.hash == "" ||"#/search"){
       window.location.hash = "";
      window.filter.setCoords(getNorthEastCoordinates(map), getSouthWestCoordinates(map));
@@ -115,7 +115,7 @@ $(function() {
             //retrieves entries stored on map
             entries = $.data($('#map')[0],'entries');
             $(entries).each(function(){
-              addMarker(this.variable_0,this.variable_1);
+              addMarker(this.latitude,this.longitude);
             });
         });
         

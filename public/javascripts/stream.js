@@ -12,7 +12,7 @@
     Stream.prototype.loadItems = function() {
       var searchify;
       $("#stream").empty().append('<p style="text-align: center; margin-top: 200px">Loading...</p>');
-      searchify = new Searchify.Client;
+      searchify = new ElasticSearch.Client;
       searchify.bind('onSearchSuccess', __bind(function(response) {
         console.log(response.results);
         return response.results;

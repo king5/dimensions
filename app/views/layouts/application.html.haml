@@ -24,7 +24,7 @@
     = javascript_include_tag 'app'
     = javascript_include_tag 'application'
     = javascript_include_tag 'map_controls'
-    = javascript_include_tag 'filter'
+    = javascript_include_tag 'dimensions/query-builder'
     = javascript_include_tag 'tag_list'
     = javascript_include_tag 'groups'
     = javascript_include_tag 'bootstrap-dropdown'
@@ -33,7 +33,7 @@
     = javascript_include_tag 'jquery-ui.min'
     = javascript_include_tag 'jquery.ui.map.full.min'
     = javascript_include_tag 'map_controls'
-    = javascript_include_tag 'searchify/searchify-client'
+    = javascript_include_tag 'searchify/elasticsearch-client'
     = javascript_include_tag 'searchify/stream'
     = javascript_include_tag 'dimensions/jquery.address-1.4.min'
     = javascript_include_tag 'dimensions/router'
@@ -43,9 +43,11 @@
     = javascript_include_tag 'jquery.ba-urlinternal.min'
     = javascript_include_tag 'underscore-min'
     = javascript_include_tag 'extensions'
+    = csrf_meta_tag 
 
   %body
     #rails_to_js_config{'data-rails-env' => Rails.env, 'data-root-path' => APP_CONFIG['host'], 'data-twitter-msg' => @twitter_message}
+    #rails_api_config{'data-api-url'=> APP_CONFIG['elasticsearch_api_url']}
     = render :partial => 'layouts/facebook_sdk'
     = render :partial => 'layouts/top_nav'
     .container

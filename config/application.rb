@@ -5,6 +5,9 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
+require "yaml"
+APP_CONFIG = YAML.load(File.read(File.expand_path('../app_config.yml', __FILE__)))[Rails.env]
+
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.

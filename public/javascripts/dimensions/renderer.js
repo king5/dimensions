@@ -33,14 +33,13 @@ $(function(){
           // IMPORTANT! values of the matches hash are pretty important for the search, without them , search doesn't work
           window.filter.matches = matches;
 
-
+          //TODO ask about the behavior to show the marks
           $.tmpl(this.template, {items: this.data}).appendTo(this.element);
-
           $.each(this.data.results, function(i, r) {
             var breakingNews, displayMarker, latitude, longitude, _ref, _ref2;
-            if(r.variable_0 && r.variable_1){
-              latitude =r.variable_1;
-              longitude = r.variable_0;
+            if(r.latitude && r.longitude){
+              latitude = Number(r.latitude);
+              longitude = Number( r.longitude);
               breakingNews = (_ref = Math.random() < .2) != null ? _ref : {
                 1: 0
               };
@@ -50,9 +49,9 @@ $(function(){
 
               if (displayMarker > 0) {
                 if (breakingNews < 1) {
-                  return addMarker(longitude, latitude);
+                  return addMarker(latitude, longitude);
                 } else {
-                  return addBreakingNewsMarker(longitude, latitude);
+                  return addBreakingNewsMarker(latitude, longitude);
                 }
               }
             }

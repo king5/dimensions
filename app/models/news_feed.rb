@@ -21,6 +21,25 @@ class NewsFeed < ActiveRecord::Base
   before_save   :build_location
 
 
+  include Tire::Model::Search
+  index_name  APP_CONFIG['elasticsearch_index']
+
+  mapping do 
+    indexes :id, type: 'string', index: :not_analized
+    indexes :name
+    indexes :url
+    indexes :created_at
+    indexes :updated_at
+    indexes :etag
+    indexes :last_modified
+    indexes :valid_feed
+  end
+  after_save :update_indexes
+
+  def update_indexes
+    tire.update_index 
+  end
+
   def self.set_downloaded(entries)
     entries.each {|e| e.download}
   end
@@ -146,9 +165,8 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def reindex_feed
-    index = Dimensions::SearchifyApi.instance.indexes(APP_CONFIG['searchify_index'])
     if self.valid_feed?
-      self.entries.to_reindex.map { |entry| entry.index_in_searchify(index) }
+      self.entries.to_reindex.map(&:index_in_searchify)
     else
       false
     end
