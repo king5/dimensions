@@ -33,7 +33,7 @@ class FeedEntry < ActiveRecord::Base
   after_touch :update_geopoints
 
   include Tire::Model::Search
- 
+
   index_name  APP_CONFIG['elasticsearch_index']
 
   mapping do  
@@ -51,7 +51,7 @@ class FeedEntry < ActiveRecord::Base
     indexes :all
   end
 
-  
+
   def self.search(params)
     tire.search(load: true, page: params[:page], per_page: 18) do
       query { string params[:query]} if params[:query].present?
@@ -72,7 +72,7 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def to_indexed_json
-      to_json( methods: ['location'] )
+    to_json( methods: ['location'] )
   end 
 
   def update_indexes

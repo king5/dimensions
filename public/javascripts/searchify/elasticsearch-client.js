@@ -11,7 +11,6 @@
 
       var result = undefined;
 
-      console.log(settings);
       $.ajax({
         url: rootPath +'/search',
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },

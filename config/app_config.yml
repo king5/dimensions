@@ -2,7 +2,7 @@ facebook: &facebook
   fb_app_id: 361505903895246 
 
 elasticsearch: &elasticsearch
-  elasticsearch_api_url: http://api.searchbox.io/api-key/68a40a8e15b9a9384f0740d39ff6d581
+  elasticsearch_api_url: http://localhost:9200
 
 twitter:
   consumer_key: KTUsgbQa6JvXHzsdAoBfw
