@@ -33,8 +33,8 @@ staging:
   <<: *open_calais
   <<: *elasticsearch
   searchify_index: 'staging'
-  elasticsearch_index: 'development'
-  host: http://www.seattleblend.com/
+  elasticsearch_index: 'staging'
+  host: http://seattleblend.com
 
 production:
   <<: *facebook
