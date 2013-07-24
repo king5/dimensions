@@ -33,7 +33,6 @@ class FeedEntry < ActiveRecord::Base
   after_touch :update_geopoints
 
   include Tire::Model::Search
-  include ActionView::Helpers::DateHelper
 
   index_name  APP_CONFIG['elasticsearch_index']
 
@@ -53,7 +52,7 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def timestamp
-    distance_of_time_in_words_to_now(self.created_at)
+    self.crated_at.to_i
   end
 
   def self.search(params)
