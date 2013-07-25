@@ -66,7 +66,7 @@ namespace :resque do
   
   desc "Start workers"
   task :start_workers => :environment do
-    run_worker("*", 20)
+    run_worker("*", 10)
   end
 
   desc "Restart scheduler"
@@ -78,7 +78,7 @@ namespace :resque do
   desc "Quit scheduler"
   task :stop_scheduler => :environment do
     pidfile = Rails.root + "tmp/pids/resque_scheduler.pid"
-    if !File.exists?(pidfile)
+   if !File.exists?(pidfile)
       puts "Scheduler not running"
     else
       pid = File.read(pidfile).to_i
