@@ -42,17 +42,15 @@ class FeedEntry < ActiveRecord::Base
     indexes :summary
     indexes :content
     indexes :location, type: 'geo_point'
-    indexes :published_at, :as => 'timestamp', type: 'date'
     indexes :timestamp
     indexes :name, as: 'text' 
     indexes :tags
     indexes :type
-    indexes :locationname
-    indexes :all
+    indexes :location_name
   end
 
   def timestamp
-    self.crated_at.to_i
+    self.published_at.to_i
   end
 
   def self.search(params)
@@ -75,7 +73,7 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def to_indexed_json
-    to_json( methods: ['location', 'locationname' 'timestamp'])
+    to_json(methods: ['location', 'tags', 'location_name', 'timestamp'])
   end 
 
   def update_indexes
