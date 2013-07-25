@@ -44,7 +44,6 @@ gem 'newrelic_rpm'
 gem 'jasmine', :group => [:development, :test]
 
 group :development do
-  gem 'mysql2'
   gem 'pry'
   gem 'guard'
   gem 'guard-rspec'

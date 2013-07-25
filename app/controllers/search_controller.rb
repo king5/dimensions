@@ -42,7 +42,7 @@ class SearchController < ApplicationController
     #@results.options[:per_page] = params[:len].to_i
     #@results.options[:page] = params[:page] || 1
 
-    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, :facets => facets, page: from, total_results: @search.results.total }
+    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, facets: facets, page: from, matches: @search.results.total }
 
   end
 
