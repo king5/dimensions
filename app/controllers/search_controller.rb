@@ -31,10 +31,7 @@ class SearchController < ApplicationController
       self.from from
       self.size size
       sort  do 
-        by :created_at, { order: :desc, ignore_unmapped: true }
-        #TODO: implement those methods 
-        # by :rank_coefficient, { order: :asc, ignore_unmapped: true }
-        # by :social_ranking, { order: :asc, ignore_unmapped: true }
+        by :social_ranking, { order: :desc, ignore_unmapped: true }
       end
     end
 

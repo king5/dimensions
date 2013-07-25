@@ -46,6 +46,7 @@ class FeedEntry < ActiveRecord::Base
     indexes :name, as: 'text' 
     indexes :tags
     indexes :type
+    indexes :social_ranking
     indexes :location_name
   end
 
