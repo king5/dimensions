@@ -12,11 +12,11 @@
       var result = undefined;
 
       $.ajax({
-        url: rootPath +'/search',
+        url: rootPath + 'search',
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         dataType: "json",
         data: settings,
-        type: "POST",
+        type: "GET",
         success: function(data){
           self.onSearchSuccess(data);
         }

@@ -90,7 +90,7 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def tags
-    self.tag_list.join(',')
+    self.tag_list
   end
 
   state_machine :initial => :new do

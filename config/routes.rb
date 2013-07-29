@@ -61,8 +61,8 @@ RailsBootstrap::Application.routes.draw do
   match 'product' => "product#show"
   match 'mobile' => "home#mobile"
   match 'news/:id' => 'news#show', :as => :news
-  match 'search' => "search#index"
-  match 'article/:ids' => "search#article"
+
+  resources :search, only: [:index]
   
   match 'api/paypal', :to => 'api/paypal#create', :via => %w(post)
   
