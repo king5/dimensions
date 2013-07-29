@@ -12,7 +12,7 @@
       var result = undefined;
 
       $.ajax({
-        url: rootPath + 'search',
+        url: '/search',
         headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
         dataType: "json",
         data: settings,
