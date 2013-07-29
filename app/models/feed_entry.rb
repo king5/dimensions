@@ -3,6 +3,7 @@ class FeedEntry < ActiveRecord::Base
   belongs_to  :feed, class_name: NewsFeed, foreign_key: "news_feed_id"
   has_many    :entity_feed_entries
   belongs_to :news_feed
+  has_many :tags, through: :taggings
   has_many    :entities, :through => :entity_feed_entries do
     def primary
       where("entity_feed_entries.default = ?", true)
@@ -44,7 +45,9 @@ class FeedEntry < ActiveRecord::Base
     indexes :location, type: 'geo_point'
     indexes :timestamp
     indexes :name, as: 'text' 
-    indexes :tags
+    indexes :tags do
+      indexes :name, type: 'string'
+    end
     indexes :type
     indexes :social_ranking
     indexes :location_name
@@ -74,7 +77,7 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def to_indexed_json
-    to_json(methods: ['location', 'tags', 'location_name', 'timestamp'])
+    to_json(methods: ['location', 'location_name', 'timestamp'])
   end 
 
   def update_indexes
@@ -87,10 +90,6 @@ class FeedEntry < ActiveRecord::Base
 
   def all
     '1'
-  end
-
-  def tags
-    self.tag_list
   end
 
   state_machine :initial => :new do
