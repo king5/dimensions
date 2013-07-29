@@ -77,7 +77,7 @@ class FeedEntry < ActiveRecord::Base
   end
 
   def to_indexed_json
-    to_json(methods: ['location', 'location_name', 'timestamp'])
+    to_json(include: { tags: { only: [:name] } }, methods: ['location', 'location_name', 'timestamp'])
   end 
 
   def update_indexes

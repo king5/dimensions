@@ -14,8 +14,6 @@ class SearchController < ApplicationController
 
       filter :range,  created_at: { from: Time.at(CGI.unescape(options[:start_date]).to_i).strftime("%FT%TZ"), to: (Time.at(CGI.unescape(options[:end_date].to_i)).strftime("%FT%TZ") rescue DateTime.now.new_offset(0).strftime("%FT%TZ")) } unless options[:start_date].blank?
 
-      filter :terms, tags: tags unless tags.empty?
-
       self.from (page * size) - 20
       self.size size
       sort  do 
