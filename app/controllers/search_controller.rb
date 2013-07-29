@@ -3,8 +3,8 @@ class SearchController < ApplicationController
     #build our main searcher tags or search text
     options = params
     owner=nil
-    size = (params[:size]||25).to_i
-    from = params["page"].to_i * size
+    size = params[:len].to_i || 20
+    page = params[:page].to_i || 1 
     #real search json
     @search = Tire.search(APP_CONFIG['elasticsearch_index']) do 
       query { string "name: #{ options[:q] }*" } unless options[:q].blank?
@@ -28,7 +28,7 @@ class SearchController < ApplicationController
       facet 'articles' do 
         date :created_at, interval: "hour"
       end
-      self.from from
+      self.from (page * size) - 20
       self.size size
       sort  do 
         by :social_ranking, { order: :desc, ignore_unmapped: true }
@@ -37,13 +37,7 @@ class SearchController < ApplicationController
 
     facets = {}
     @search.facets.each{|k,v| facets[k]=v["terms"]} unless @search.facets.nil?
-    #TODO: immplement pagination for results
-    #@results = @search.results
-    #@results.options[:per_page] = params[:len].to_i
-    #@results.options[:page] = params[:page] || 1
-
-    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, facets: facets, page: from, matches: @search.results.total }
-
+    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, facets: facets, page: params[:page], matches: @search.results.total }
   end
 
   def article
@@ -54,4 +48,5 @@ class SearchController < ApplicationController
 
     render :json=>{:results =>  r["hits"]["hits"]}
   end
+
 end

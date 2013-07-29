@@ -30,6 +30,7 @@
       this.neCoords   = null;
       this.fetch     = ["name", "url", "updated_at", "content"];
       this.start      = 0;
+      this.page       = 1;
       this.len        = 20;
       this.current    = 1;
       this.docid      = null;
@@ -115,8 +116,9 @@
         }
         query.start_date       = this.startDate
         query.len              = this.len;
+        query.page             = this.page;
         return query;
-      },
+     },
 
       getQueryAsHtml : function() {
         var q, s;
@@ -263,11 +265,12 @@
         }
         return Router.handleRequest("search");
       },
-      setPage:function(link){
+      setPage: function(link){
         link = link.replace(/#\/search#page#/,'');
         start = (this.matches[link] - this.len)+1;
         this.start = start+1;
         this.current = link;
+        this.page = link;
         return Router.handleRequest("search");
       },
       setEntry:function(id,search){

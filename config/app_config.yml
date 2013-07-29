@@ -2,7 +2,7 @@ facebook: &facebook
   fb_app_id: 361505903895246 
 
 elasticsearch: &elasticsearch
-  elasticsearch_api_url: http://localhost:9200
+  elasticsearch_api_url: http://seattleblend.com:9200/
 
 twitter:
   consumer_key: KTUsgbQa6JvXHzsdAoBfw
@@ -18,9 +18,7 @@ development:
   <<: *facebook
   <<: *open_calais
   <<: *elasticsearch
-  elasticsearch_api_url: http://localhost:9200
-  searchify_index: 'development'
-  elasticsearch_index: 'development'
+  elasticsearch_index: 'staging'
   host: http://localhost:3000/
 
 test:
@@ -32,7 +30,6 @@ staging:
   <<: *facebook
   <<: *open_calais
   <<: *elasticsearch
-  searchify_index: 'staging'
   elasticsearch_index: 'staging'
   host: http://seattleblend.com
 
