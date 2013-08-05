@@ -22,7 +22,7 @@ class FeedEntry < ActiveRecord::Base
   scope :for_location_review, where(:state => ['localized', 'tagged'])
   scope :not_reviewed, where(:reviewed => false)
   scope :reviewed, where(:reviewed => true)
-  scope :to_recalculate, where("created_at > '#{12.hours.ago}' AND indexed = 't' AND outdated = 'f'").order('created_at DESC')
+  scope :to_recalculate, where("indexed = 't' AND outdated = 'f'").order('created_at DESC').limit(TIER['second'])
   scope :to_remove, where("created_at < '#{12.hours.ago}' AND indexed = 't' AND outdated = 'f'")
 
   scope :to_reindex, joins(:feed).where("feed_entries.state = ? AND feed_entries.indexed = ?", 'tagged', false).readonly(false)
