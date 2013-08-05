@@ -49,7 +49,7 @@ class FeedEntry < ActiveRecord::Base
       indexes :name, type: 'string'
     end
     indexes :type
-    indexes :social_ranking
+    indexes :social_ranking, type: 'float'
     indexes :location_name
   end
 

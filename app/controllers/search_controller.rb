@@ -23,7 +23,7 @@ class SearchController < ApplicationController
       self.from (page * size) - 20
       self.size size
 
-      sort { by :social_ranking, 'desc' }
+      sort { by :social_ranking, 'desc', type: 'float' }
     end
 
     facets = {}
