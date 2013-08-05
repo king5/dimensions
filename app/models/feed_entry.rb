@@ -22,7 +22,7 @@ class FeedEntry < ActiveRecord::Base
   scope :for_location_review, where(:state => ['localized', 'tagged'])
   scope :not_reviewed, where(:reviewed => false)
   scope :reviewed, where(:reviewed => true)
-  scope :to_recalculate, where("in'second= 't' AND outdated = 'f'").order('created_at DESC').limit(TIER['second'])
+  scope :to_recalculate, where("indexed = 't'").order('published_at DESC').limit(TIER['second'])
   scope :to_remove, where("created_at < '#{12.hours.ago}' AND indexed = 't' AND outdated = 'f'")
 
   scope :to_reindex, joins(:feed).where("feed_entries.state = ? AND feed_entries.indexed = ?", 'tagged', false).readonly(false)
@@ -374,6 +374,7 @@ class FeedEntry < ActiveRecord::Base
 
       # calculate entry_age in hours and add 2 to avoid dividing by zero
       entry_age = ((Time.now - self.published_at) / 3600 ) + 2
+
 
       # calculate social_ranking using the entry rank coefficient (defaults to 1.8)
       # can be assigned per entry
