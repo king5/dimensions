@@ -22,9 +22,8 @@ class SearchController < ApplicationController
 
       self.from (page * size) - 20
       self.size size
-      sort  do 
-        by :social_ranking, { order: :desc, ignore_unmapped: true }
-      end
+
+      sort { by :social_ranking, 'desc' }
     end
 
     facets = {}
