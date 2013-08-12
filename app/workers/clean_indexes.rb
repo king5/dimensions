@@ -1,8 +1,8 @@
 class CleanIndexes
-  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-  @queue = :clean_index
+  include Sidekiq::Worker
+  sidekiq_options :queue => :clean_index, :retry => 1, :backtrace => true
   
-  def self.perform
+  def perform
     FeedEntry.remove_this_entries
   end
 

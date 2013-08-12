@@ -1,8 +1,8 @@
 class EntryMonitor
-  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-  @queue = :reindex_entries
+  include Sidekiq::Worker
+  sidekiq_options :queue => :reindex_entries, :retry => 1, :backtrace => true
 
-  def self.perform
+  def perform
     NewsFeed.find_each do |feed|
       feed.bg_reindex_feed
     end

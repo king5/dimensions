@@ -1,8 +1,8 @@
 class ReindexFeed
-  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-  @queue = :reindex_entries
+  include Sidekiq::Worker
+  sidekiq_options :queue => :reindex_entries, :retry => 1, :backtrace => true
 
-  def self.perform(feed_id)
+  def perform(feed_id)
     NewsFeed.find(feed_id).reindex_feed
   end
 end

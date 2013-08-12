@@ -1,8 +1,8 @@
 class EntryContentFetcher
-  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-  @queue = :entries
+  include Sidekiq::Worker
+  sidekiq_options :queue => :entries, :retry => 1, :backtrace => true
 
-  def self.perform(entry_id)
+  def perform(entry_id)
     entry = FeedEntry.find_by_id(entry_id)
     entry.fetch
   end

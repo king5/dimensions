@@ -24,8 +24,6 @@ gem 'kaminari'
 
 # background jobs
 #========================================
-gem 'resque', :require => "resque/server"
-gem 'resque-scheduler', :require => "resque_scheduler"
 
 gem 'rake'
 gem 'haml-rails'
@@ -37,6 +35,11 @@ gem 'tire'
 gem 'crack'
 gem 'exception_notification', :require => 'exception_notifier'
 gem 'daemons'
+gem 'sidekiq', require: 'sidekiq/web'
+gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sidekiq-status'
+gem 'sidekiq-scheduler'
+gem 'slim', '>= 1.1.0'
 gem 'daemons-rails'
 gem 'thin'
 gem 'newrelic_rpm'
@@ -56,7 +59,6 @@ group :test do
   gem 'rspec-rails'
   gem 'fuubar'
   gem 'factory_girl_rails'
-  gem 'resque_spec'
   gem 'simplecov'
   gem 'spork-rails'
 end

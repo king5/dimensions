@@ -1,0 +1,8 @@
+---
+:verbose: false
+:pidfile: ./tmp/pids/sidekiq.pid
+:logfile: ./log/sidekiq.log
+:concurrency:  20
+:queues:
+  - feed_entry
+  - feeds

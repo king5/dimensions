@@ -1,8 +1,8 @@
 class FeedLoader
-  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-  @queue = :feeds
+  include Sidekiq::Worker
+  sidekiq_options :queue => :feeds, :retry => 1, :backtrace => true
 
-  def self.perform(news_feed_id)
+  def perform(news_feed_id)
     news_feed = NewsFeed.find(news_feed_id)
     news_feed.load_entries
   end
