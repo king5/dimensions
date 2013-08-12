@@ -1,8 +1,8 @@
 class FeedUpdater
-  include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-  @queue = :feeds
+  include Sidekiq::Worker
+  sidekiq_options :queue => :feeds, :retry => 1, :backtrace => true
 
-  def self.perform
+  def perform
     NewsFeed.find_each do |feed|
       feed.update_entries
     end
