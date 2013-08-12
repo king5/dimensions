@@ -9,7 +9,7 @@ RailsBootstrap::Application.routes.draw do
 
   
   namespace :admin do
-    mount SecureResqueServer.new, :at => "/resque"
+    mount Sidekiq::Web => '/sidekiq'
 
     resources :news_feeds do
       get :process_entries, :on => :member
