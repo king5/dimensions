@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130701025556) do
+ActiveRecord::Schema.define(:version => 20130820154601) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20130701025556) do
     t.datetime "updated_at",      :null => false
     t.string   "name"
     t.text     "tags"
+    t.datetime "deleted_at"
   end
 
   create_table "entities_news_feeds", :id => false, :force => true do |t|
@@ -92,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20130701025556) do
     t.boolean  "outdated",          :default => false
     t.string   "latitude"
     t.string   "longitude"
+    t.datetime "deleted_at"
   end
 
   add_index "feed_entries", ["url"], :name => "index_feed_entries_on_url", :unique => true
@@ -111,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20130701025556) do
     t.string   "etag"
     t.datetime "last_modified"
     t.boolean  "valid_feed",    :default => true
+    t.datetime "deleted_at"
   end
 
   add_index "news_feeds", ["name"], :name => "index_news_feeds_on_name", :unique => true

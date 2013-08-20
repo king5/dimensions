@@ -15,6 +15,7 @@ gem 'ruby-graphviz', :require => 'graphviz'
 #========================================
 gem 'meta_search'
 gem 'sass-rails'
+gem "acts_as_paranoid", "~>0.4.0"
 
 #feed parsing
 #========================================

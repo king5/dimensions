@@ -1,4 +1,5 @@
 class Entity < ActiveRecord::Base
+  acts_as_paranoid
 
   has_many  :feed_entries, :through => :entity_feed_entries
   has_many  :entity_feed_entries

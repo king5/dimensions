@@ -4,9 +4,10 @@ require 'uri'
 
 class NewsFeed < ActiveRecord::Base
   include Dimensions::Netutils
+  acts_as_paranoid
 
   has_and_belongs_to_many :entities
-  has_many  :entries, :class_name =>  FeedEntry, :dependent => :restrict
+  has_many  :entries, :class_name =>  FeedEntry, :dependent => :destroy
   has_one :feedzirra_response
 
   attr_accessor :location_values

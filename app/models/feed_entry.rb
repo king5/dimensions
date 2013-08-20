@@ -1,4 +1,5 @@
 class FeedEntry < ActiveRecord::Base
+  acts_as_paranoid
   cattr_accessor :skip_callbacks
   belongs_to  :feed, class_name: NewsFeed, foreign_key: "news_feed_id"
   has_many    :entity_feed_entries
