@@ -1,7 +1,7 @@
 class FeedEntry < ActiveRecord::Base
   acts_as_paranoid
   cattr_accessor :skip_callbacks
-  belongs_to  :feed, class_name: NewsFeed, foreign_key: "news_feed_id"
+  belongs_to  :feed, class_name: NewsFeed, foreign_key: "news_feed_id", with_deleted: true
   has_many    :entity_feed_entries
   belongs_to :news_feed
   has_many :tags, through: :taggings
@@ -31,6 +31,7 @@ class FeedEntry < ActiveRecord::Base
   acts_as_taggable
   before_save :clean_errors
   after_save :update_geopoints, unless: :skip_callbacks
+  after_destroy :remove_from_index
   after_save :update_indexes
   after_touch :update_geopoints
 
@@ -54,6 +55,10 @@ class FeedEntry < ActiveRecord::Base
     indexes :location_name
   end
 
+  def remove_from_index
+    puts self.tire.index.remove self
+  end
+
   def timestamp
     self.published_at.to_i
   end
@@ -66,10 +71,8 @@ class FeedEntry < ActiveRecord::Base
 
   def update_geopoints
     self.skip_callbacks = true
-    loc = self.primary_location || self.news_feed.location
-    unless loc.nil? 
-      self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] })
-    end
+      loc = self.primary_location || self.news_feed.nil? ? nil : self.news_feed.location 
+      self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] }) unless loc.nil? 
     self.skip_callbacks = false
   end
 
@@ -82,7 +85,7 @@ class FeedEntry < ActiveRecord::Base
   end 
 
   def update_indexes
-    tire.update_index 
+    tire.update_index  
   end
 
   def location_name

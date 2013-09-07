@@ -36,23 +36,23 @@ gem 'devise'
 gem 'devise_rpx_connectable' 
 gem 'tire'
 gem 'crack'
-gem 'exception_notification', :require => 'exception_notifier'
+gem 'exception_notification', '=2.5.2', :require => 'exception_notifier'
 gem 'daemons'
 gem 'daemons-rails'
 gem 'thin'
 gem 'newrelic_rpm'
-
+gem 'pry-rails'
 gem 'jasmine', :group => [:development, :test]
 
 group :development do
-  gem 'pry'
+  gem 'debugger'
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-spork'
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', "=2.0.3"
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'fuubar'
