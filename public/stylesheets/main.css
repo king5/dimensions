@@ -169,7 +169,7 @@ p.small {
   height: 25px;
 }
 .topbar { background: url('../images/background.png'); height: 150px; border-bottom: none; }
-.topbar-inner, .topbar .fill { height: 152px; clear: both; margin-top: 0; background: url('http://q.king5.com/seattleblend/Header.png') no-repeat center 20px; border-bottom: none; box-shadow: none; }
+.topbar-inner, .topbar .fill { height: 152px; clear: both; margin-top: 0; background: url('/images/Header.png') no-repeat center 20px; border-bottom: none; box-shadow: none; }
 .topbar-inner .container { height: 150px; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor:pointer; }
 .topbar form { margin: 20px 0 0 380px; }
 .topbar input { background: #fff; color: #000; }
@@ -192,3 +192,4 @@ background-image: -webkit-linear-gradient(top, rgb(15,43,103) 35%, rgb(10,29,74)
 background-image: -ms-linear-gradient(top, rgb(15,43,103) 35%, rgb(10,29,74) 69%); }
 #filters h1 { display: none; visibiilty: none; }
 div.date { background: #ececec; font-size: 10px; padding: 0 6px; margin: 0; }
+.header-message a { text-decoration: underline; color: black; }
