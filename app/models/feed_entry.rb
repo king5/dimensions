@@ -39,14 +39,14 @@ class FeedEntry < ActiveRecord::Base
 
   index_name  APP_CONFIG['elasticsearch_index']
 
-  mapping do  
+  mapping do
     indexes :id, type: 'string', index: :not_analyzed
     indexes :url
     indexes :summary
     indexes :content
     indexes :location, type: 'geo_point'
     indexes :timestamp
-    indexes :name, as: 'text' 
+    indexes :name, as: 'text'
     indexes :tags do
       indexes :name, type: 'string'
     end
@@ -71,8 +71,8 @@ class FeedEntry < ActiveRecord::Base
 
   def update_geopoints
     self.skip_callbacks = true
-      loc = self.primary_location || self.news_feed.nil? ? nil : self.news_feed.location 
-      self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] }) unless loc.nil? 
+      loc = self.primary_location || self.news_feed.nil? ? nil : self.news_feed.location
+      self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] }) unless loc.nil?
     self.skip_callbacks = false
   end
 
@@ -82,10 +82,10 @@ class FeedEntry < ActiveRecord::Base
 
   def to_indexed_json
     to_json(include: { tags: { only: [:name] } }, methods: ['location', 'location_name', 'timestamp'])
-  end 
+  end
 
   def update_indexes
-    tire.update_index  
+    tire.update_index
   end
 
   def location_name
@@ -247,7 +247,7 @@ class FeedEntry < ActiveRecord::Base
 
 
     def index_in_searchify
-      location = self.primary_location.nil? ? {} : self.primary_location.serialized_data 
+      location = self.primary_location.nil? ? {} : self.primary_location.serialized_data
 
       if location["latitude"].present? && location["longitude"].present?
         self.social_ranking = 0.0 if self.social_ranking.nil?
