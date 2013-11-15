@@ -74,13 +74,14 @@ GEM
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
-    devise (1.5.3)
+    devise (2.2.7)
       bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.0.3)
-      warden (~> 1.1)
-    devise_rpx_connectable (0.2.1)
-      devise (>= 1.1.2)
-      rpx_now (>= 0.6.23)
+      orm_adapter (~> 0.1)
+      railties (~> 3.1)
+      warden (~> 1.2.1)
+    devise_rpx_connectable (0.3.0)
+      devise (>= 2.1.2)
+      rpx_now (~> 0.7.0)
     diff-lcs (1.2.4)
     em-http-request (1.0.3)
       addressable (>= 2.2.3)
@@ -185,7 +186,7 @@ GEM
     multipart-post (1.2.0)
     newrelic_rpm (3.6.6.147)
     nokogiri (1.4.7)
-    orm_adapter (0.0.7)
+    orm_adapter (0.5.0)
     pg (0.16.0)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
@@ -360,8 +361,8 @@ DEPENDENCIES
   daemons-rails
   database_cleaner
   debugger
-  devise (= 1.5.3)
-  devise_rpx_connectable (= 0.2.1)
+  devise (= 2.2.7)
+  devise_rpx_connectable (= 0.3.0)
   exception_notification (= 2.5.2)
   factory_girl_rails
   feedzirra
