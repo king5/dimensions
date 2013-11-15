@@ -71,7 +71,7 @@ class FeedEntry < ActiveRecord::Base
 
   def update_geopoints
     self.skip_callbacks = true
-      loc = self.primary_location || self.news_feed.nil? ? nil : self.news_feed.location
+      loc = self.primary_location || (self.news_feed.nil? ? nil : self.news_feed.location)
       self.update_attributes( { longitude: loc.serialized_data["longitude"], latitude: loc.serialized_data["latitude"] }) unless loc.nil?
     self.skip_callbacks = false
   end
