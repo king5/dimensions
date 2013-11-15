@@ -4,13 +4,13 @@ class SearchController < ApplicationController
     options = params
     owner=nil
     size = params[:len].to_i || 20
-    page = params[:page].to_i || 1 
+    page = params[:page].to_i || 1
     tags = params[:tags] || ""
     #real search json
-    @search = Tire.search(APP_CONFIG['elasticsearch_index']) do 
+    @search = Tire.search(APP_CONFIG['elasticsearch_index']) do
       query { string "name: #{ options[:q] }*" } unless options[:q].blank?
 
-      query do 
+      query do
         boolean do
           should { string "tags.name:#{tags}" }
         end
