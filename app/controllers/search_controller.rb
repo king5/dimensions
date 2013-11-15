@@ -28,7 +28,12 @@ class SearchController < ApplicationController
 
     facets = {}
     @search.facets.each{|k,v| facets[k]=v["terms"]} unless @search.facets.nil?
-    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, facets: facets, page: params[:page], matches: @search.results.total }
+    render json: {
+      results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]},
+      facets: facets,
+      page: params[:page],
+      matches: @search.results.total
+    }
   end
 
 end
