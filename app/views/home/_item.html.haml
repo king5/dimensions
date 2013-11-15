@@ -10,7 +10,7 @@
     {{/if}}
     .body
       %h3.headline.unread
-        %a.news{:href=>"${item.url}",:target=>"_blank"}${name}
+        %a.news{:href=>"${url}",:target=>"_blank"}${name}
       .article-details
         {{if summary}}
         %p.summary
