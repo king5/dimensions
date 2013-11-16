@@ -5,6 +5,9 @@
       = f.label :name
       = f.text_field :name
     %fieldset
+      = f.label :rank_coefficient
+      = f.text_field :rank_coefficient
+    %fieldset
       = f.label :url
       = f.text_field :url
     %fieldset
@@ -21,4 +24,3 @@
       = f.submit feed.new_record? ? "Create" : "Update"
 
     = javascript_include_tag "news_feeds/verify-address.js"
-      
