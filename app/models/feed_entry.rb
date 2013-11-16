@@ -15,6 +15,7 @@ class FeedEntry < ActiveRecord::Base
     end
   end
 
+  delegate :rank_coefficient, to: :feed, prefix: true
   serialize :fetch_errors
 
   default_scope order('id DESC')
@@ -382,7 +383,7 @@ class FeedEntry < ActiveRecord::Base
 
       # calculate social_ranking using the entry rank coefficient (defaults to 1.8)
       # can be assigned per entry
-      social_ranking = upvotes / ( entry_age ** self.rank_coefficient )
+      social_ranking = upvotes / ( entry_age ** (self.rank_coefficient || self.feed_rank_coefficient) )
       self.update_attributes(:social_ranking => social_ranking)
 
       # rank = (tw + likes) - 1 / (time_since_post_date + 2) ** 1.8
