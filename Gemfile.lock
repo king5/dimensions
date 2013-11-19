@@ -154,8 +154,8 @@ GEM
       selenium-webdriver (>= 0.1.3)
     jasmine-core (1.3.1)
     journey (1.0.4)
-    json (1.8.0)
-    json_pure (1.8.0)
+    json (1.8.1)
+    json_pure (1.8.1)
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -182,11 +182,11 @@ GEM
     method_source (0.8.2)
     mime-types (1.25)
     mono_logger (1.1.0)
-    multi_json (1.7.9)
+    multi_json (1.8.2)
     multipart-post (1.2.0)
     newrelic_rpm (3.6.6.147)
     nokogiri (1.4.7)
-    orm_adapter (0.4.0)
+    orm_adapter (0.5.0)
     pg (0.16.0)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
@@ -361,8 +361,8 @@ DEPENDENCIES
   daemons-rails
   database_cleaner
   debugger
-  devise
-  devise_rpx_connectable
+  devise (= 2.2.7)
+  devise_rpx_connectable (= 0.3.0)
   exception_notification (= 2.5.2)
   factory_girl_rails
   feedzirra

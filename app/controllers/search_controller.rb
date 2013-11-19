@@ -4,13 +4,13 @@ class SearchController < ApplicationController
     options = params
     owner=nil
     size = params[:len].to_i || 20
-    page = params[:page].to_i || 1 
+    page = params[:page].to_i || 1
     tags = params[:tags] || ""
     #real search json
-    @search = Tire.search(APP_CONFIG['elasticsearch_index']) do 
+    @search = Tire.search(APP_CONFIG['elasticsearch_index']) do
       query { string "name: #{ options[:q] }*" } unless options[:q].blank?
 
-      query do 
+      query do
         boolean do
           should { string "tags.name:#{tags}" }
         end
@@ -28,7 +28,12 @@ class SearchController < ApplicationController
 
     facets = {}
     @search.facets.each{|k,v| facets[k]=v["terms"]} unless @search.facets.nil?
-    render json: { results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]}, facets: facets, page: params[:page], matches: @search.results.total }
+    render json: {
+      results: @search.json["hits"]["hits"].map{|x|x["_source"]["feed_entry"]},
+      facets: facets,
+      page: params[:page],
+      matches: @search.results.total
+    }
   end
 
 end
