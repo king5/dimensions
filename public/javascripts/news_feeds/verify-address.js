@@ -1,21 +1,21 @@
 $(document).ready(function(){
   var loc = $("#news_feed_address").val();
   $(".subm input").css("display","none");
-  $("#verify_address").click(function(){ 
+  $("#verify_address").click(function(){
     var myAddressQuery = $("#news_feed_address").val();
 
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode(
-      { address : myAddressQuery, 
-        region: 'no' 
+      { address : myAddressQuery,
+        region: 'no'
       }, function(results, status){
         if(_.isEmpty(results)){
-          $('.errors_for_address').html('We couldn\'t verify your address.'); 
+          $('.errors_for_address').html('We couldn\'t verify your address.');
           $(".address_results").empty()
           $('p.subm input').css('display','none')
         }else{
-          
+
           var locations = "";
           var index = 0;
 
@@ -25,7 +25,7 @@ $(document).ready(function(){
               locations += "<tr><td><p>" +  result.formatted_address +"</p></td> <td> <p data-location-index=" + index + "><a href='#' class='btn btn-info' id='pick_location' data-location='"+result.formatted_address+"'><i class='icon-ok'></i>Select</a></p></td></tr>";
             } else {
               locations += "<tr><td><p>" +  result.formatted_address +"</p></td> <td> <p data-location-index=" + index + "><a href='#' class='btn btn-success' id='pick_location' data-location='"+result.formatted_address+"'><i class='icon-ok'></i>Select</a></p></td></tr>";
-            } 
+            }
             index++;
             return locations;
           });
@@ -85,6 +85,10 @@ $(document).ready(function(){
     checkfields($(this),e);
   });
 
+  $('#news_feed_rank_coefficient').keydown(function(e){
+    checkfields($(this),e);
+  });
+
   function checkfields(element,e){
     if(element.val()==""){
       $(".subm input").css("display","none");
@@ -116,7 +120,7 @@ $(document).ready(function(){
     if (($('#news_feed_name').val()!="") && ($('#news_feed_url').val()!="") && ($('#news_feed_address').val()!="")){redirect=true;}
 
     return redirect
-            
+
   });
 
 
